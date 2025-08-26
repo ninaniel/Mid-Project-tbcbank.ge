@@ -21,17 +21,19 @@ Supports **desktop** and **mobile** test runs via TestNG parameterization.
 -----------------
 Project Structure
 -----------------
+```bash
 pom.xml
 testng.xml
 src
-├── main
-└── test
-└── java
-└── ge/tbc/testautomation
-├── runners   # BaseTest, DriverFactory
-├── steps     # Step definitions (HomeSteps, AcademySteps, etc.)
-├── tests     # Test classes (AcademyCoursesTest, MapFilterTest, etc.)
-└── utils     # Utility classes
+ ├── main
+    └── test
+      └── java
+        └── ge/tbc/testautomation
+          ├── runners   # BaseTest, DriverFactory
+          ├── steps     # Step definitions (HomeSteps, AcademySteps, etc.)
+          ├── tests     # Test classes (AcademyCoursesTest, MapFilterTest, etc.)
+          └── utils     # Utility classes
+```
 
 
 ---
