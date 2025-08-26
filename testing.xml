@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TBCBankAutomationSuite" parallel="classes" thread-count="3">
+
+    <!-- ================= DESKTOP SUITE ================= -->
+    <test name="DesktopTests">
+        <parameter name="runMode" value="desktop"/>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.MapDefaultStateTest"/>
+            <class name="ge.tbc.testautomation.tests.MapFilterTest"/>
+            <class name="ge.tbc.testautomation.tests.AcademyCoursesTest"/>
+        </classes>
+    </test>
+
+    <!-- ================= MOBILE SUITE ================= -->
+    <test name="MobileTests">
+        <parameter name="runMode" value="mobile"/>
+        <packages>
+            <package name="ge.tbc.testautomation.tests">
+                <exclude name="ge.tbc.testautomation.tests.MapFilterTest"/>
+            </package>
+        </packages>
+    </test>
+
+</suite>
