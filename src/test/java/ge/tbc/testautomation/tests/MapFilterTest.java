@@ -1,5 +1,6 @@
 package ge.tbc.testautomation.tests;
 
+import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
 import ge.tbc.testautomation.steps.HomeSteps;
 import ge.tbc.testautomation.steps.LocationsSteps;
@@ -19,12 +20,12 @@ public class MapFilterTest extends BaseTest {
 
         locationsSteps
                 .waitForMap()
-                .filterByCity("ბათუმი")
-                .verifyHalfOfMarkersInCity("Batumi")
-                .searchStreet("ბაგრატიონი")
+                .filterByCity(Constants.CITY_TO_FILTER)
+                .verifyHalfOfMarkersInCity(Constants.CITY_TO_CHECK_API)
+                .searchStreet(Constants.STREET_TO_SEARCH)
                 .verifyBranchesAndPinsAreSameCount()
                 .verifyEachBranchHasRelatedPin()
-                .verifyBranchesStreetMatchSearch("ბაგრატიონი")
-                .verifyPinsStreetMatchSearch("bagrationi");
+                .verifyBranchesStreetMatchSearch(Constants.STREET_TO_SEARCH)
+                .verifyPinsStreetMatchSearch(Constants.STREET_TO_CHECK_API);
     }
 }

@@ -1,5 +1,6 @@
 package ge.tbc.testautomation.tests;
 
+import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
 import ge.tbc.testautomation.steps.AcademySteps;
 import ge.tbc.testautomation.steps.HomeSteps;
@@ -21,12 +22,12 @@ public class AcademyCoursesTest extends BaseTest {
 
         if (mobile) {
             homeSteps.openBurgerMenu()
-                    .openTbcSectionMobile("თიბისი")
-                    .openMegaMenuSubItem("განათლება")
-                    .openMegaMenuSubItem("IT აკადემია");
+                    .openTbcSectionMobile(Constants.TBC_SECTION)
+                    .openMegaMenuSubItem(Constants.SUB_ITEM_EDUCATION)
+                    .openMegaMenuSubItem(Constants.SUB_ITEM_ACADEMY);
         } else {
             homeSteps.navigateToEducationDesktop();
-            academySteps.openAcademyCardDesctop("IT აკადემია");
+            academySteps.openAcademyCardDesctop(Constants.SUB_ITEM_ACADEMY);
         }
 
         academySteps.validateCourses();

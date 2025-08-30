@@ -1,5 +1,6 @@
 package ge.tbc.testautomation.tests;
 
+import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
 import ge.tbc.testautomation.steps.HomeSteps;
 import ge.tbc.testautomation.steps.LocationsSteps;
@@ -19,7 +20,7 @@ public class MapDefaultStateTest extends BaseTest {
 
         locationsSteps
                 .waitForMap()
-                .verifyHalfOfMarkersInCity("Tbilisi");
+                .verifyHalfOfMarkersInCity(Constants.DEFAULT_CITY);
     }
 }
 
