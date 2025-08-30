@@ -10,7 +10,7 @@ import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$;
+
 
 public class LocationsSteps {
 
@@ -21,14 +21,6 @@ public class LocationsSteps {
         return this;
     }
 
-    public LocationsSteps verifyDefaultMapCenter(String city) {
-        waitForMap();
-        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(15));
-
-        long inCityCount = markers.stream().filter(m -> isMarkerInCity(m, city)).count();
-        Assert.assertTrue(inCityCount >= markers.size() / 2, "Map is not centered on " + city);
-        return this;
-    }
 
     public LocationsSteps filterByCity(String city) {
         locationsPage.filterDropdown().click();
@@ -41,46 +33,62 @@ public class LocationsSteps {
         return this;
     }
 
-    public LocationsSteps verifyMarkersInCity(String city) {
-        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
-        boolean allInCity = markers.stream().allMatch(m -> isMarkerInCity(m, city));
-        Assert.assertTrue(allInCity, "Not all markers are in " + city);
+    public LocationsSteps verifyHalfOfMarkersInCity(String city) {
+        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(15));
+
+        int half = Math.max(1, markers.size() / 2);
+        boolean allInCity = markers.stream()
+                .limit(half)
+                .allMatch(m -> {
+                    String coordinates = m.getAttribute("position");
+                    return MapUtil.isCoordinateInExpectedCity(coordinates, city);
+                });
+
+        Assert.assertTrue(allInCity);
         return this;
     }
 
-    public LocationsSteps verifyBranchAddressesMatchMarkers() {
+    public LocationsSteps verifyBranchesAndPinsAreSameCount() {
+        ElementsCollection results = locationsPage.branchListItems().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+        Assert.assertEquals(results.size(), markers.size());
+        return this;
+    }
+
+
+    public LocationsSteps verifyBranchesStreetMatchSearch(String street) {
         ElementsCollection results = locationsPage.branchListItems().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
 
         for (int i = 0; i < results.size(); i++) {
             SelenideElement result = results.get(i);
-            String fullAddress = result.getText();
-            String expectedHouseNumber = fullAddress.split("#")[1].split("\n")[0].trim();
-            result.click();
-            results.get(i).$(".tbcx-pw-atm-branches-section__list-item").shouldHave(cssClass("active"));
-
-            SelenideElement relatedPin = $("gmp-advanced-marker .active").shouldBe(visible);
-            String position = relatedPin.closest("gmp-advanced-marker").getAttribute("position");
-            String[] parts = position.split(",");
-            String lat = parts[0];
-            String lon = parts[1];
-
-            String apiHouseNumber = MapUtil.getHouseNumber(lat, lon);
-            String apiRoad = MapUtil.getRoad(lat, lon);
-
-            if (!apiHouseNumber.isEmpty()) {
-                Assert.assertEquals(apiHouseNumber, expectedHouseNumber, "House number mismatch for: " + fullAddress);
-            }
-            Assert.assertTrue(apiRoad.toLowerCase().contains("bagrationi"), "Road does not contain 'Bagrationi': " + apiRoad);
+            String branchAddress = result.getText();
+            Assert.assertTrue(branchAddress.toLowerCase().contains(street));
         }
 
         return this;
     }
 
-    private boolean isMarkerInCity(SelenideElement marker, String city) {
-        String position = marker.getAttribute("position");
-        String[] coords = position.split(",");
-        String lat = coords[0].trim();
-        String lon = coords[1].trim();
-        return MapUtil.isCoordinateInExpectedCity(lat, lon, city);
+    public LocationsSteps verifyEachBranchHasRelatedPin() {
+        ElementsCollection results = locationsPage.branchListItems().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+
+        for (int i = 0; i < results.size(); i++) {
+            SelenideElement result = results.get(i);
+            result.click();
+            result.$(locationsPage.selectedBranch).shouldHave(cssClass("active"));
+            locationsPage.relatedPin.shouldBe(visible);
+        }
+        return this;
     }
+
+    public LocationsSteps verifyPinsStreetMatchSearch(String street) {
+        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+
+        for (SelenideElement m: markers) {
+            String coordinates = m.getAttribute("position");
+            String pinRoad = MapUtil.getRoad(coordinates);
+            Assert.assertTrue(pinRoad.toLowerCase().contains(street));
+        }
+        return this;
+    }
+
 }

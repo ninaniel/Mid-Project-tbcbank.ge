@@ -34,4 +34,8 @@ public class LocationsPage {
     public ElementsCollection markers() {
         return $$("gmp-advanced-marker");
     }
+
+    public SelenideElement relatedPin = $("gmp-advanced-marker .active");
+    public SelenideElement selectedPin = relatedPin.closest("gmp-advanced-marker");
+    public String selectedBranch = ".tbcx-pw-atm-branches-section__list-item";
 }

@@ -1,10 +1,8 @@
 package ge.tbc.testautomation.steps;
 
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
 import ge.tbc.testautomation.pages.HomePage;
 
-import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 
@@ -18,7 +16,7 @@ public class HomeSteps {
     }
 
     public HomeSteps acceptCookiesIfPresent() {
-        homePage.cookieAcceptButton().shouldBe(clickable).click();
+        homePage.cookieAcceptButton().shouldBe(visible).click();
         return this;
     }
 

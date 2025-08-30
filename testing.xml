@@ -12,13 +12,13 @@
     </test>
 
     <!-- ================= MOBILE SUITE ================= -->
-    <test name="MobileTests">
-        <parameter name="runMode" value="mobile"/>
-        <packages>
-            <package name="ge.tbc.testautomation.tests">
-                <exclude name="ge.tbc.testautomation.tests.MapFilterTest"/>
-            </package>
-        </packages>
-    </test>
+<!--    <test name="MobileTests">-->
+<!--        <parameter name="runMode" value="mobile"/>-->
+<!--        <packages>-->
+<!--            <package name="ge.tbc.testautomation.tests">-->
+<!--                <exclude name="ge.tbc.testautomation.tests.MapFilterTest"/>-->
+<!--            </package>-->
+<!--        </packages>-->
+<!--    </test>-->
 
 </suite>

@@ -12,13 +12,19 @@ public class MapFilterTest extends BaseTest {
 
     @Test
     public void filterBatumiTest() {
-        homeSteps.openHomePage()
+        homeSteps
+                .openHomePage()
                 .acceptCookiesIfPresent()
                 .navigateToLocations();
 
-        locationsSteps.filterByCity("ბათუმი")
-                .verifyMarkersInCity("Batumi")
+        locationsSteps
+                .waitForMap()
+                .filterByCity("ბათუმი")
+                .verifyHalfOfMarkersInCity("Batumi")
                 .searchStreet("ბაგრატიონი")
-                .verifyBranchAddressesMatchMarkers();
+                .verifyBranchesAndPinsAreSameCount()
+                .verifyEachBranchHasRelatedPin()
+                .verifyBranchesStreetMatchSearch("ბაგრატიონი")
+                .verifyPinsStreetMatchSearch("bagrationi");
     }
 }

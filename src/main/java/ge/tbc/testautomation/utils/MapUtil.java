@@ -31,18 +31,19 @@ public class MapUtil {
         }
     }
 
-    public static boolean isCoordinateInExpectedCity(String lat, String lon, String expectedCity) {
+    public static boolean isCoordinateInExpectedCity(String coordinates, String expectedCity) {
+        String[] parts = coordinates.split(",");
+        String lat = parts[0];
+        String lon = parts[1];
         JSONObject address = getAddressFromCoordinates(lat, lon);
         String actualCity = address.optString("city", "");
         return actualCity.equalsIgnoreCase(expectedCity);
     }
 
-    public static String getHouseNumber(String lat, String lon) {
-        JSONObject address = getAddressFromCoordinates(lat, lon);
-        return address.optString("house_number", "");
-    }
-
-    public static String getRoad(String lat, String lon) {
+    public static String getRoad(String coordinates) {
+        String[] parts = coordinates.split(",");
+        String lat = parts[0];
+        String lon = parts[1];
         JSONObject address = getAddressFromCoordinates(lat, lon);
         return address.optString("road", "");
     }

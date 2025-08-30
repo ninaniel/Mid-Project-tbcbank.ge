@@ -12,11 +12,14 @@ public class MapDefaultStateTest extends BaseTest {
 
     @Test
     public void shouldFallbackToTbilisiWhenGeolocationBlocked() {
-        homeSteps.openHomePage()
+        homeSteps
+                .openHomePage()
                 .acceptCookiesIfPresent()
                 .navigateToLocations();
 
-        locationsSteps.verifyDefaultMapCenter("Tbilisi");
+        locationsSteps
+                .waitForMap()
+                .verifyHalfOfMarkersInCity("Tbilisi");
     }
 }
 
