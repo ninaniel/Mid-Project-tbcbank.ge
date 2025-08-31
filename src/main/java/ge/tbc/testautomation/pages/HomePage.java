@@ -32,4 +32,7 @@ public class HomePage {
     public SelenideElement burgerMenu = $(".tbcx-pw-hamburger-menu__button");
     public ElementsCollection burgerMenuSections = $$(".tbcx-pw-navigation-item button");
     public ElementsCollection EducationMenuOptions = $$(".tbcx-pw-mega-menu-sub-item__title");
+
+    //currency exchange
+    public SelenideElement currencyExchangeLink = $(".pane-container a[href='/ka/treasury-products']");
 }

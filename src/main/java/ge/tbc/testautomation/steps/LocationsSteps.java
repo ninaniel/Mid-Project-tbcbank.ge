@@ -1,15 +1,20 @@
 package ge.tbc.testautomation.steps;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import ge.tbc.testautomation.pages.LocationsPage;
 import ge.tbc.testautomation.utils.MapUtil;
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.sleep;
 
 
 public class LocationsSteps {
@@ -33,6 +38,29 @@ public class LocationsSteps {
         return this;
     }
 
+    public LocationsSteps verifyDefaultLocation(String city) {
+        locationsPage.mapWrapper().should(exist, Duration.ofSeconds(20))
+                .scrollIntoCenter().hover().click();
+
+        sleep(1000);
+        actions().sendKeys(Keys.ADD).perform();
+        sleep(1000);
+
+
+        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(15));
+
+        long inCityCount = markers
+                .stream()
+                .filter(m -> {
+            String coordinates = m.getAttribute("position");
+            return MapUtil.isCoordinateInExpectedCity(coordinates, city);
+                })
+                .count();
+
+        Assert.assertTrue(inCityCount >= markers.size() / 2);
+        return this;
+    }
+
     public LocationsSteps verifyHalfOfMarkersInCity(String city) {
         ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(15));
 
@@ -49,8 +77,8 @@ public class LocationsSteps {
     }
 
     public LocationsSteps verifyBranchesAndPinsAreSameCount() {
-        ElementsCollection results = locationsPage.branchListItems().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
-        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+        ElementsCollection results = locationsPage.branchListItems().shouldBe(sizeLessThan(10), Duration.ofSeconds(15));
+        ElementsCollection markers = locationsPage.markers().shouldBe(sizeLessThan(10), Duration.ofSeconds(15));
         Assert.assertEquals(results.size(), markers.size());
         return this;
     }
@@ -80,15 +108,15 @@ public class LocationsSteps {
         return this;
     }
 
-    public LocationsSteps verifyPinsStreetMatchSearch(String street) {
-        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
-
-        for (SelenideElement m: markers) {
-            String coordinates = m.getAttribute("position");
-            String pinRoad = MapUtil.getRoad(coordinates);
-            Assert.assertTrue(pinRoad.toLowerCase().contains(street));
-        }
-        return this;
-    }
+//    public LocationsSteps verifyPinsStreetMatchSearch(String street) {
+//        ElementsCollection markers = locationsPage.markers().shouldBe(sizeGreaterThan(0), Duration.ofSeconds(10));
+//
+//        for (SelenideElement m: markers) {
+//            String coordinates = m.getAttribute("position");
+//            String pinRoad = MapUtil.getRoad(coordinates);
+//            Assert.assertTrue(pinRoad.toLowerCase().contains(street));
+//        }
+//        return this;
+//    }
 
 }

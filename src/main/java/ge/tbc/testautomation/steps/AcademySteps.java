@@ -57,8 +57,7 @@ public class AcademySteps {
                     }
                 }
 
-                Assert.assertTrue(h1Visible || featuresValid,
-                        "Expected either h1 containing 'კურსის აღწერა' or valid feature grid");
+                Assert.assertTrue(h1Visible || featuresValid);
 
                 back();
             }

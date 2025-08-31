@@ -8,8 +8,9 @@ import static com.codeborne.selenide.Selenide.*;
 public class LocationsPage {
 
     public SelenideElement mapWrapper() {
-        return $(".tbcx-pw-atm-branches-section__map-wrapper .tbcx-pw-atm-branches-section__list-wrapper");
+        return $("app-atm-branches-section-map");
     }
+
 
     public ElementsCollection tabButtons() {
         return $$(".tbcx-pw-tab-menu button");
@@ -34,6 +35,8 @@ public class LocationsPage {
     public ElementsCollection markers() {
         return $$("gmp-advanced-marker");
     }
+
+    public SelenideElement branchesWrapper = $(".tbcx-pw-atm-branches-section__map-wrapper .tbcx-pw-atm-branches-section__list-wrapper");
 
     public SelenideElement relatedPin = $("gmp-advanced-marker .active");
     public SelenideElement selectedPin = relatedPin.closest("gmp-advanced-marker");

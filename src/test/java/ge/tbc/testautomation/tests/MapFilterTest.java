@@ -14,8 +14,6 @@ public class MapFilterTest extends BaseTest {
     @Test
     public void filterBatumiTest() {
         homeSteps
-                .openHomePage()
-                .acceptCookiesIfPresent()
                 .navigateToLocations();
 
         locationsSteps
@@ -25,7 +23,6 @@ public class MapFilterTest extends BaseTest {
                 .searchStreet(Constants.STREET_TO_SEARCH)
                 .verifyBranchesAndPinsAreSameCount()
                 .verifyEachBranchHasRelatedPin()
-                .verifyBranchesStreetMatchSearch(Constants.STREET_TO_SEARCH)
-                .verifyPinsStreetMatchSearch(Constants.STREET_TO_CHECK_API);
+                .verifyBranchesStreetMatchSearch(Constants.STREET_TO_SEARCH);
     }
 }

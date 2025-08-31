@@ -16,12 +16,9 @@ public class AcademyCoursesTest extends BaseTest {
     @Test
     @Parameters({"mobile"})
     public void coursesTest(@Optional("false") boolean mobile) {
-
-        homeSteps.openHomePage()
-                .acceptCookiesIfPresent();
-
         if (mobile) {
-            homeSteps.openBurgerMenu()
+            homeSteps
+                    .openBurgerMenu()
                     .openTbcSectionMobile(Constants.TBC_SECTION)
                     .openMegaMenuSubItem(Constants.SUB_ITEM_EDUCATION)
                     .openMegaMenuSubItem(Constants.SUB_ITEM_ACADEMY);

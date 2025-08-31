@@ -8,6 +8,7 @@
             <class name="ge.tbc.testautomation.tests.MapDefaultStateTest"/>
             <class name="ge.tbc.testautomation.tests.MapFilterTest"/>
             <class name="ge.tbc.testautomation.tests.AcademyCoursesTest"/>
+            <class name="ge.tbc.testautomation.tests.CurrencyExchangeTest"/>
         </classes>
     </test>
 
